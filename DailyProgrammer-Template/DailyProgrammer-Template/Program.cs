@@ -7,18 +7,20 @@ using NUnit.Framework; //test classes need to have the using statement
 
 ///     REDDIT DAILY PROGRAMMER SOLUTION TEMPLATE 
 ///                             http://www.reddit.com/r/dailyprogrammer
-///     Your Name: 
-///     Challenge Name:
-///     Challenge #: 
-///     Challenge URL: 
+///     Your Name: Andrii Pelekh
+///     Challenge Name: [Easy] Words with Enemies
+///     Challenge #: Challenge #198
+///     Challenge URL: http://www.reddit.com/r/dailyprogrammer/comments/2syz7y/20150119_challenge_198_easy_words_with_enemies/
 ///     Brief Description of Challenge:
-///
+///Program takes a string of two words, and eliminates the same letters in each word at ratio of 1 for 1.
+///After that, the program announces the "winner" - the word that had the most letters left after elimination.
+///If amounts of remaining letters are the same then it's a tie.
 /// 
 ///
 ///     What was difficult about this challenge?
-/// 
+///Part with ratio 1 to 1 seems to be new for me to implement. As overall, this challenge seems to be easy and I want to start
+///with this one.
 ///
-///     
 ///
 ///     What was easier than expected about this challenge?
 ///     
@@ -34,6 +36,26 @@ namespace DailyProgrammer_Template
     {
         static void Main(string[] args)
         {
+
+            WordsWithEnemies("cause because");
+            WordsWithEnemies("hello below");
+            WordsWithEnemies("hit miss");
+            WordsWithEnemies("rekt pwn");
+            WordsWithEnemies("combo jumbo");
+            WordsWithEnemies("critical optical");
+            WordsWithEnemies("isoenzyme apoenzyme");
+            WordsWithEnemies("tribesman brainstem");
+            WordsWithEnemies("blames nimble");
+            WordsWithEnemies("yakuza wizard");
+            WordsWithEnemies("longbow blowup");
+            WordsWithEnemies("12345467");
+
+            //string text = "ABCDEFG";
+            //string text1 = text.Remove(3,1);
+            //Console.WriteLine("{0}\n{1}", text, text1);
+
+
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -44,6 +66,60 @@ namespace DailyProgrammer_Template
         public static int MyTestFunction(int inputInteger)
         {
             return inputInteger;
+        }
+
+        public static string WordsWithEnemies(string inputString)
+        {
+            int result = 0;
+            if (int.TryParse(inputString, out result) == true)
+            {
+                Console.WriteLine("Input is invalid");
+                return "Input is invalid";
+            }
+            List<string> listOfWords = inputString.Split(' ').ToList();
+            string firstWord = listOfWords[0].ToLower();
+            string secondWord = listOfWords[1].ToLower();
+            Console.WriteLine("Input was: {0} and {1}", firstWord, secondWord);
+            for (int i = 0; i < firstWord.Length; i++)
+            {
+                for (int j = 0; j < secondWord.Length; j++)
+                {
+                    if (firstWord.Length == 0)
+                    {
+                        break;
+                    }
+                    if (firstWord[i] == secondWord[j])
+                    {
+                        //NOTE
+                        //Replace doesn't work here because it replaces all instances of a letter
+                        //firstWord = firstWord.Replace(firstWord[i].ToString(), "");
+                        firstWord = firstWord.Remove(i, 1);
+                        secondWord = secondWord.Remove(j, 1);
+                        i = 0;
+                        j = 0;
+                    }
+                }
+            }
+            if (firstWord.Length == secondWord.Length)
+            {
+                Console.WriteLine("That's a tie!, letter remained: {0} and {1}", firstWord, secondWord);
+                Console.WriteLine("---------------------\n");
+                return "Tie";
+            }
+            else if (firstWord.Length > secondWord.Length)
+            {
+                Console.WriteLine("First word wins, letter remained: {0} and {1}", firstWord, secondWord);
+                Console.WriteLine("---------------------\n");
+                return "First wins";
+            }
+            else if (firstWord.Length < secondWord.Length)
+            {
+                Console.WriteLine("Second word wins, letter remained: {0} and {1}", firstWord, secondWord);
+                Console.WriteLine("---------------------\n");
+                return "Second wins";
+            }
+            Console.WriteLine("---------------------\n");
+            return "Input is invalid";
         }
     }
 
@@ -58,19 +134,23 @@ namespace DailyProgrammer_Template
         [Test]
         public void MyValidTest()
         {
-            //inside of the test, we can declare any variables that we'll need to test.  Typically, we will reference a function in your main program to test.
-            int result = Program.MyTestFunction(15);  // this function should return 15 if it is working correctly
-            //now we test for the result.
-            Assert.IsTrue(result == 15, "This is the message that displays if it does not pass");
-            // The format is:
-            // Assert.IsTrue(some boolean condition, "failure message");
+            ////inside of the test, we can declare any variables that we'll need to test.  Typically, we will reference a function in your main program to test.
+            //int result = Program.MyTestFunction(15);  // this function should return 15 if it is working correctly
+            ////now we test for the result.
+            //Assert.IsTrue(result == 15, "This is the message that displays if it does not pass");
+            //// The format is:
+            //// Assert.IsTrue(some boolean condition, "failure message");
+            //string myResult = Program.WordsWithEnemies("yakuza wizard");
+            //Assert.IsTrue(myResult == "That's a tie! Letter remained: ykua and wird", "Test is failed");
+            StringAssert.AreEqualIgnoringCase("Tie", Program.WordsWithEnemies("yakuza wizard"));
         }
 
         [Test]
         public void MyInvalidTest()
         {
-            int result = Program.MyTestFunction(15);
-            Assert.IsFalse(result == 14);
+            //string myResult = Program.WordsWithEnemies("123456");
+            //Assert.IsFalse(myResult == "Input is invalid", "failure");
+            StringAssert.AreEqualIgnoringCase("Input is invalid", Program.WordsWithEnemies("12345"));
         }
     }
 #endregion
