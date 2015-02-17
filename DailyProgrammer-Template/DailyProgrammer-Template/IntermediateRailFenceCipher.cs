@@ -49,7 +49,7 @@ namespace DailyProgrammer_Template
             return inputInteger;
         }
 
-        public void RailFenceEnc(string input)
+        public static void RailFenceEnc(string input)
         {
             string one = string.Empty;
             string two = string.Empty;
@@ -63,17 +63,20 @@ namespace DailyProgrammer_Template
                     if (counter1 == 1)
                     {
                         one = one + input[i];
-                        counter1 = 2;
+                        //counter1 = 2;
+                        counter1++;
                     }
                     else if (counter1 == 2)
                     {
                         two = two + input[i];
-                        counter1 = 3;
+                        //counter1 = 3;
+                        counter1++;
                     }
                     else if (counter1 == 3)
                     {
                         three = three + input[i];
-                        counter1 = 2;
+                        //counter1 = 2;
+                        counter1--;
                         counter2 = "down";
                     }
                 }
@@ -82,18 +85,39 @@ namespace DailyProgrammer_Template
                     if (counter1 == 2)
                     {
                         two = two + input[i];
-                        counter1 = 1;
+                        //counter1 = 1;
+                        counter1--;
                     }
                     else if (counter1 == 1)
                     {
                         one = one + input[i];
-                        counter1 = 2;
+                        //counter1 = 2;
+                        counter1++;
                         counter2 = "up";
                     }
                 }
             }
-            Console.WriteLine(string.Join("", one, two, thee));
+            Console.WriteLine(string.Join("", one, two, three));
 
+        }
+    }
+
+    class RailFenceEnc
+    {
+        public RailFenceEnc{
+    }
+    
+    class String
+    {
+        private string _string;
+        public string String
+        {
+            get { return _string; }
+            set { _string = value; }
+        }
+        public String()
+        {
+            _string = string.Empty;
         }
     }
 
